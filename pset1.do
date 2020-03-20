@@ -22,6 +22,7 @@ foreach x of newlist mean_treated mean_control sd_treated sd_control diff_means 
 }
 *
 *
+*
 *** Group all the statistics we will need to add to the table under a single label
 global table_statistics_1 "mean_treated mean_control sd_treated sd_control diff_means se_diff_means"
 *
