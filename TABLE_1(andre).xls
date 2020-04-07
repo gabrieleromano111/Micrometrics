@@ -1,9 +1,0 @@
-Table for 1.(a)							Table for 2.(a)						Table for 2.(d)					
-Variables	mean_treated	mean_control	sd_treated	sd_control	diff_means	se_diff_means	mean_treated	mean_control	sd_treated	sd_control	diff_means	se_diff_means	mean_treated	mean_control	sd_treated	sd_control	diff_means	se_diff_means
-age	25.82	25.05	7.16	7.06	.76	.68	25.82	34.85	7.16	10.44	-9.03	.57	34.31	34.15	10.47	10.53	.16	.41
-educ	10.35	10.09	2.01	1.61	.26	.18	10.35	12.12	2.01	3.08	-1.77	.16	11.9	12.08	3.08	3.02	-.18	.12
-black	.84	.83	.36	.38	.02	.04	.84	.25	.36	.43	.59	.03	.3	.28	.46	.45	.02	.02
-hisp	.06	.11	.24	.31	-.05	.03	.06	.03	.24	.18	.03	.02	.03	.04	.18	.19	0	.01
-nodegree	.71	.83	.46	.37	-.13	.04	-	-	-	-	-	-	-	-	-	-	-	-
-re74	2.1	2.11	4.89	5.69	-.01	.5	2.1	19.43	4.89	13.41	-17.33	.45	17.96	18.5	13.39	14.04	-.55	.53
-re75	1.53	1.27	3.22	3.1	.27	.31	1.53	19.06	3.22	13.6	-17.53	.36	17.67	18.03	13.42	14.32	-.35	.54
