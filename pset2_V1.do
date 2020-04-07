@@ -37,7 +37,6 @@ preserve
 restore
 
 
-
 ************* Point (b)
 
 
@@ -185,11 +184,11 @@ restore
 
 * We run a simple OLS of 'Healthy' on 'Education', adding the full list of controls defined in the previous question.
 
-reg Healthy Education `Controls' `Birth_Year_FEs', robust
+	reg Healthy Education `Controls' `Birth_Year_FEs', robust
 
 * We now create a table, including the coefficient for Education only and the usual statistics.
 
-outreg2 using TABLE_Q_3.xls, replace keep(Education) nocons addstat("Mean y", mu_y, "Mean x", mu_x) cttop("OLS")
+	outreg2 using TABLE_Q_3.xls, replace keep(Education) nocons addstat("Mean y", mu_y, "Mean x", mu_x) cttop("OLS")
 
 	
 ************* Point (b)
@@ -197,20 +196,20 @@ outreg2 using TABLE_Q_3.xls, replace keep(Education) nocons addstat("Mean y", mu
 
 * We run an IV regression of 'Healthy' on 'Education', using 'Quarter1-Quarter3' as instruments and including the full set of controls. Using the 'savefirts' option, we store the estimates of the first stage.
 
-ivreg2 Healthy (Education = Quarter1 Quarter2 Quarter3) `Controls' `Birth_Year_FEs', savefirst robust
+	ivreg2 Healthy (Education = Quarter1 Quarter2 Quarter3) `Controls' `Birth_Year_FEs', savefirst robust
 
 * We append the estimates to the table, including the first stage coefficients of the quarters only. We add the usual statistics and the F-statistic as well.
  
-outreg2 [_ivreg2_Education] using TABLE_Q_3.xls, append keep(Quarter1 Quarter2 Quarter3) nocons addstat("Mean y", mu_y, "Mean x", mu_x, "F-statistic, IVs", e(widstat))
+	outreg2 [_ivreg2_Education] using TABLE_Q_3.xls, append keep(Quarter1 Quarter2 Quarter3) nocons addstat("Mean y", mu_y, "Mean x", mu_x, "F-statistic, IVs", e(widstat))
 
 
 ************* Point (c)
 
 * We run the reduced form regression of 'Healthy' on 'Quarter1-Quarter3', using the full set of controls. We include and 'if' clause to be sure we are computing the regression on the relevant support, that is, all individuals who are not missing data on education. We then append the estimates to the table.
 
-reg Healthy Quarter1 Quarter2 Quarter3 `Controls' `Birth_Year_FEs' if Education != ., robust
+	reg Healthy Quarter1 Quarter2 Quarter3 `Controls' `Birth_Year_FEs' if Education != ., robust
 
-outreg2 using TABLE_Q_3.xls, append keep(Quarter1 Quarter2 Quarter3) nocons cttop("Reduced form") addstat("Mean y", mu_y, "Mean x", mu_x)
+	outreg2 using TABLE_Q_3.xls, append keep(Quarter1 Quarter2 Quarter3) nocons cttop("Reduced form") addstat("Mean y", mu_y, "Mean x", mu_x)
 
 * In point 2.e, we run three iv regressions of the variable "Healthy", using "Quarter1", "Quarter2" and "Quarter3" as instruments for "Education" and progressively expanding the set of controls. What these regressions show is that education has a positive and significant impact on health, even when controlling for date and place of birth and marital status. If we also consider the first stage regression of point 3.b, one can notice that dummies for quarter of birth have a negative and statistically significant impact on education. This is because individuals born earlier in the year receive on average less schooling than others, since they reach the legal dropout age earlier in their education path compared to students born in later quarters. 
 *From the reduced-form regression, we see that being born in the first or second quarter of the year has a negative and significant impact on health outcomes, while that of the third quarter is not significant. Indeed, this is consistent with what preoviously observed. Since, as we have estimated, education has a positive impact on health outcomes, while being born in earlier quarter of the year has a negative impact on education, the reduced-form shows that being born in earlier quarters negatively (and significantly) impacts health outcomes and we can conclude that education is a channel for this process.
@@ -220,13 +219,13 @@ outreg2 using TABLE_Q_3.xls, append keep(Quarter1 Quarter2 Quarter3) nocons ctto
 
 * We run the IV regression, using quarters as instruments and the full set of controls. 
 
-ivreg2 Healthy (Education = Quarter1 Quarter2 Quarter3) `Controls' `Birth_Year_FEs', robust savefirst
+	ivreg2 Healthy (Education = Quarter1 Quarter2 Quarter3) `Controls' `Birth_Year_FEs', robust savefirst
 
-matrix list e(first)
+	matrix list e(first)
 
 *We append the estimate of the coefficient for 'Education' to the table.
 
-outreg2 using TABLE_Q_3.xls, append keep(Education) nocons addstat("Mean y", mu_y, "Mean x", mu_x) cttop("Second stage")
+	outreg2 using TABLE_Q_3.xls, append keep(Education) nocons addstat("Mean y", mu_y, "Mean x", mu_x) cttop("Second stage")
 
 
 ************* Point (e)
@@ -249,19 +248,19 @@ outreg2 using TABLE_Q_3.xls, append keep(Education) nocons addstat("Mean y", mu_
 
 * We generate the dummy variables for the states, the interaction between year of birth and quarter of birth and the interaction between state and quarter of birth. In particular, for the former two we use a similar approach to Exercise 2, exploiting the 'generate' option of the 'tab' command. For the latter, we use the consìvenient command 'xi'. 
 
-tab bpl, generate(state)
+	tab bpl, generate(state)
 
-tab birthdate, generate(yearXquarter)
+	tab birthdate, generate(yearXquarter)
 
-xi i.bpl*i.birthqtr, noomit prefix(_ii_)
+	xi i.bpl*i.birthqtr, noomit prefix(_ii_)
 
 *We now define the sets of controls for the dummies as local variables. 
 
-local State_FEs "state1-state50" // We omit state51, which is Wyoming
+	local State_FEs "state1-state50" // We omit state51, which is Wyoming
 
-local Year_Quarter_FEs "yearXquarter1-yearXquarter39" // We omit the dummy for the fourth quarter of 1939, yearXquarter40
+	local Year_Quarter_FEs "yearXquarter1-yearXquarter39" // We omit the dummy for the fourth quarter of 1939, yearXquarter40
 
-local State_Quarter_FEs "_ii_bplXbir_1_1-_ii_bplXbir_56_3" // We omit _ii_bplXbir_56_4, which corresponds to being from Wyoming and being born in the fourth quarter 
+	local State_Quarter_FEs "_ii_bplXbir_1_1-_ii_bplXbir_56_3" // We omit _ii_bplXbir_56_4, which corresponds to being from Wyoming and being born in the fourth quarter 
 
 
 ************* Point (g)
@@ -269,13 +268,13 @@ local State_Quarter_FEs "_ii_bplXbir_1_1-_ii_bplXbir_56_3" // We omit _ii_bplXbi
 
 * We run an IV regression of 'Healthy' on 'Education', using 'Year_Quarter_FEs' as instrument, including also the full set of controls. For later use, we store the F-statistic of the excluded variables as a scalar.
 
-ivreg2 Healthy (Education = `Year_Quarter_FEs' ) `Controls' `Birth_Year_FEs', robust
-scalar F_stat_1 = e(widstat)
+	ivreg2 Healthy (Education = `Year_Quarter_FEs' ) `Controls' `Birth_Year_FEs', robust
+	scalar F_stat_1 = e(widstat)
 
 * We run an IV regression of 'Healthy' on 'Education', using 'State_Quarter_FEs' as instrument, including also the full set of controls. For later use, we store the F-statistic of the excluded variables as a scalar.
 
-ivreg2 Healthy (Education = `State_Quarter_FEs' ) `Controls' `Birth_Year_FEs' `State_FEs', robust //Wyoming is omitted from State_FEs and used as omitted category
-scalar F_stat_2 = e(widstat)
+	ivreg2 Healthy (Education = `State_Quarter_FEs' ) `Controls' `Birth_Year_FEs' `State_FEs', robust //Wyoming is omitted from State_FEs and used as omitted category
+	scalar F_stat_2 = e(widstat)
 
 
 ************* Point (h)
@@ -283,7 +282,7 @@ scalar F_stat_2 = e(widstat)
 
 * We display the values of the F-statistics computed in the previous point. 
 
-scalar list F_stat_1 F_stat_2
+	scalar list F_stat_1 F_stat_2
 
 * Both F-statistics are smaller than ten, the conventional critical level for testing the relevance of the instruments. Hence, the instruments used are weak. This will very likely entail severe bias in smaller samples. This issue would have to be considered for both regressions.
 
